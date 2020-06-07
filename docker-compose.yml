@@ -1,0 +1,29 @@
+version: '2.1'
+
+services:
+
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: biblio-db
+      MYSQL_USER: biblio
+      MYSQL_PASSWORD: biblio
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
