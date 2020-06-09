@@ -64,14 +64,14 @@ class ReaderController {
             return $this->notFoundResponse();
         }
         $response['status_code_header'] = 'HTTP/1.1 200 OK';
-        $response['body'] = json_encode($result);
+        $response['body'] = json_encode($result[0]);
         return $response;
     }
 
     private function createReaderFromRequest()
     {
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
-        if (! $this->validatePerson($input)) {
+        if (! $this->validateReader($input)) {
             return $this->unprocessableEntityResponse();
         }
         $this->readerGateway->insert($input);
@@ -87,7 +87,7 @@ class ReaderController {
             return $this->notFoundResponse();
         }
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
-        if (! $this->validatePerson($input)) {
+        if (! $this->validateReader($input)) {
             return $this->unprocessableEntityResponse();
         }
         $this->readerGateway->update($id, $input);
@@ -108,12 +108,12 @@ class ReaderController {
         return $response;
     }
 
-    private function validatePerson($input)
+    private function validateReader($input)
     {
-        if (! isset($input['firstname'])) {
+        if (! isset($input['name'])) {
             return false;
         }
-        if (! isset($input['lastname'])) {
+        if (! isset($input['email'])) {
             return false;
         }
         return true;

@@ -12,7 +12,3 @@ $dotenv->load();
 
 $dbConnection = (new DatabaseConnector())->getConnection();
 $readerGateway = new ReaderGateway($dbConnection);
-
-$result = $readerGateway->findAll();
-
-var_dump($result);
