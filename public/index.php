@@ -19,8 +19,6 @@ if ($uri[2] !== 'reader' && $uri[2] !== 'lending' && $uri[2] !== 'book') {
   exit();
 }
 
-var_dump($_SERVER);
-
 if (!getenv('BYPASS_AUTH') && !authenticate()) {
   header("HTTP/1.1 401 Unauthorized");
   exit('Unauthorized');
