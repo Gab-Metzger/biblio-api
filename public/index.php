@@ -69,12 +69,8 @@ function authenticate()
     if (!isset($matches[1])) {
       throw new \Exception('No Bearer Token');
     }
-    $jwtVerifier = (new \Okta\JwtVerifier\JwtVerifierBuilder())
-      ->setIssuer(getenv('OKTAISSUER'))
-      ->setAudience('api://default')
-      ->setClientId(getenv('OKTACLIENTID'))
-      ->build();
-    return $jwtVerifier->verify($matches[1]);
+    
+    return getenv('AUTH_TOKEN') === $matches[1];
   } catch (\Exception $e) {
     return false;
   }
