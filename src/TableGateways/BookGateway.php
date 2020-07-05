@@ -37,4 +37,6 @@ class BookGateway
       exit($e->getMessage());
     }
   }
+
+  // TODO: Add delete
 }

@@ -23,6 +23,9 @@ class LendingController {
     public function processRequest()
     {
         switch ($this->requestMethod) {
+            case 'POST':
+                $response = $this->createLendingFromRequest();
+                break;
             case 'DELETE':
                 $response = $this->deleteLending($this->id);
                 break;
@@ -36,6 +39,18 @@ class LendingController {
         }
     }
 
+    private function createLendingFromRequest()
+    {
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        if (! $this->validateLending($input)) {
+            return $this->unprocessableEntityResponse();
+        }
+        $this->lendingGateway->insert($input);
+        $response['status_code_header'] = 'HTTP/1.1 201 Created';
+        $response['body'] = null;
+        return $response;
+    }
+
     private function deleteLending($id)
     {
         $result = $this->lendingGateway->find($id);
@@ -45,6 +60,29 @@ class LendingController {
         $this->lendingGateway->delete($id);
         $response['status_code_header'] = 'HTTP/1.1 200 OK';
         $response['body'] = null;
+        return $response;
+    }
+
+    private function validateLending($input)
+    {
+        if (! isset($input['id'])) {
+            return false;
+        }
+        if (! isset($input['id_reader'])) {
+            return false;
+        }
+        if (! isset($input['title'])) {
+            return false;
+        }
+        return true;
+    }
+
+    private function unprocessableEntityResponse()
+    {
+        $response['status_code_header'] = 'HTTP/1.1 422 Unprocessable Entity';
+        $response['body'] = json_encode([
+            'error' => 'Invalid input'
+        ]);
         return $response;
     }
 
