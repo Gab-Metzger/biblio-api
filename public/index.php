@@ -69,7 +69,6 @@ function authenticate()
     if (!isset($matches[1])) {
       throw new \Exception('No Bearer Token');
     }
-    
     return getenv('AUTH_TOKEN') === $matches[1];
   } catch (\Exception $e) {
     return false;

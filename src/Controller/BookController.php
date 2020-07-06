@@ -26,6 +26,12 @@ class BookController {
             case 'POST':
                 $response = $this->createBookFromRequest();
                 break;
+            case 'PUT':
+                $response = $this->updateBookFromRequest($this->id);
+                break;
+            case 'DELETE':
+                $response = $this->deleteBook($this->id);
+                break;
             default:
                 $response = $this->notFoundResponse();
                 break;
@@ -44,6 +50,31 @@ class BookController {
         }
         $this->bookGateway->insert($input);
         $response['status_code_header'] = 'HTTP/1.1 201 Created';
+        $response['body'] = null;
+        return $response;
+    }
+
+    private function updateBookFromRequest($id)
+    {
+        $result = $this->bookGateway->find($id);
+        if (! $result) {
+            return $this->notFoundResponse();
+        }
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        $this->bookGateway->update($id, $input);
+        $response['status_code_header'] = 'HTTP/1.1 200 OK';
+        $response['body'] = null;
+        return $response;
+    }
+
+    private function deleteBook($id)
+    {
+        $result = $this->bookGateway->find($id);
+        if (! $result) {
+            return $this->notFoundResponse();
+        }
+        $this->bookGateway->delete($id);
+        $response['status_code_header'] = 'HTTP/1.1 200 OK';
         $response['body'] = null;
         return $response;
     }
