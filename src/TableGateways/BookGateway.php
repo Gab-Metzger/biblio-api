@@ -36,9 +36,9 @@ class BookGateway
   {
     $statement = "
     INSERT INTO book 
-        (Ndoc, Titre, Auteur, Infos, Cote, Isbn, image, Biborbdp)
+        (Ndoc, Titre, Auteur, Infos, editeur, Cote, Isbn, image, Biborbdp)
     VALUES
-        (:id, :title, :author, :infos, :cote, :isbn, :image, :biborbdp);
+        (:id, :title, :author, :infos, :editor, :cote, :isbn, :image, :biborbdp);
     ";
 
     try {
@@ -48,6 +48,7 @@ class BookGateway
         'title' => $input['title'],
         'author'  => $input['author'] ?? NULL,
         'infos'  => $input['infos'] ?? NULL,
+        'editor'  => $input['editor'] ?? NULL,
         'cote'  => $input['cote'] ?? NULL,
         'isbn'  => $input['isbn'],
         'image'  => $input['image'],
@@ -67,6 +68,7 @@ class BookGateway
               Titre = :title,
               Auteur  = :author,
               Infos = :infos,
+              editeur = :editor,
               Cote = :cote,
               Isbn = :isbn
               image = :image
@@ -80,6 +82,7 @@ class BookGateway
         'title' => $input['title'],
         'author'  => $input['author'],
         'infos' => $input['infos'],
+        'editor' => $input['editor'],
         'cote' => $input['cote'],
         'isbn' => $input['isbn'],
         'image' => $input['image']
