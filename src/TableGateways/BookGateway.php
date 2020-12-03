@@ -36,9 +36,9 @@ class BookGateway
   {
     $statement = "
     INSERT INTO book 
-        (Ndoc, Titre, Auteur, Infos, Cote, Isbn, Biborbdp)
+        (Ndoc, Titre, Auteur, Infos, Cote, Isbn, image, Biborbdp)
     VALUES
-        (:id, :title, :author, :infos, :cote, :isbn, :biborbdp);
+        (:id, :title, :author, :infos, :cote, :isbn, :image, :biborbdp);
     ";
 
     try {
@@ -50,6 +50,7 @@ class BookGateway
         'infos'  => $input['infos'] ?? NULL,
         'cote'  => $input['cote'] ?? NULL,
         'isbn'  => $input['isbn'],
+        'image'  => $input['image'],
         'biborbdp'  => $input['biborbdp'] ?? "BIB",
       ));
       return $statement->rowCount();
@@ -68,6 +69,7 @@ class BookGateway
               Infos = :infos,
               Cote = :cote,
               Isbn = :isbn
+              image = :image
             WHERE Ndoc = :id;
         ";
 
@@ -79,7 +81,8 @@ class BookGateway
         'author'  => $input['author'],
         'infos' => $input['infos'],
         'cote' => $input['cote'],
-        'isbn' => $input['isbn']
+        'isbn' => $input['isbn'],
+        'image' => $input['image']
       ));
       return $statement->rowCount();
     } catch (\PDOException $e) {
