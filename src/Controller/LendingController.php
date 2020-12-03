@@ -23,6 +23,13 @@ class LendingController {
     public function processRequest()
     {
         switch ($this->requestMethod) {
+            case 'GET':
+                if ($this->id) {
+                    $response = $this->getLending($this->id);
+                } else {
+                    $response = $this->unprocessableEntityResponse();
+                }
+                break;
             case 'POST':
                 $response = $this->createLendingFromRequest();
                 break;
@@ -37,6 +44,17 @@ class LendingController {
         if ($response['body']) {
             echo $response['body'];
         }
+    }
+
+    private function getLending($id)
+    {
+        $result = $this->lendingGateway->find($id);
+        if (! $result) {
+            return $this->notFoundResponse();
+        }
+        $response['status_code_header'] = 'HTTP/1.1 200 OK';
+        $response['body'] = json_encode($result[0]);
+        return $response;
     }
 
     private function createLendingFromRequest()
