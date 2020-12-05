@@ -51,7 +51,7 @@ class BookGateway
         'editor'  => $input['editor'] ?? NULL,
         'cote'  => $input['cote'] ?? NULL,
         'isbn'  => $input['isbn'],
-        'image'  => $input['image'],
+        'image'  => $input['image'] ?? NULL,
         'biborbdp'  => $input['biborbdp'] ?? "BIB",
       ));
       return $statement->rowCount();
@@ -70,7 +70,7 @@ class BookGateway
               Infos = :infos,
               editeur = :editor,
               Cote = :cote,
-              Isbn = :isbn
+              Isbn = :isbn,
               image = :image
             WHERE Ndoc = :id;
         ";
