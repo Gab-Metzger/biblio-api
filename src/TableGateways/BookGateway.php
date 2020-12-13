@@ -36,9 +36,9 @@ class BookGateway
   {
     $statement = "
     INSERT INTO book 
-        (Ndoc, Titre, Auteur, Infos, editeur, Cote, Isbn, image, Biborbdp)
+        (Ndoc, Titre, Auteur, Infos, editeur, Cote, Isbn, image, Biborbdp, date_crea)
     VALUES
-        (:id, :title, :author, :infos, :editor, :cote, :isbn, :image, :biborbdp);
+        (:id, :title, :author, :infos, :editor, :cote, :isbn, :image, :biborbdp, NOW());
     ";
 
     try {
